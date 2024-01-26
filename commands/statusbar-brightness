@@ -1,0 +1,4 @@
+#!/bin/sh
+
+percent=$(printf "%.0f" "$(light)")
+echo "brightness: [${percent}%]"

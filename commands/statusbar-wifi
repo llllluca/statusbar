@@ -1,0 +1,30 @@
+#!/bin/sh
+
+wifi_quality_to_percent() {
+    local quality="$1"
+    bc << EOF
+    scale=2;
+    ${quality} / 70 * 100
+EOF
+    return 0
+}
+
+
+INTERFACE="wlp3s0"
+OPERSTATE_PATH="/sys/class/net/${INTERFACE}/operstate"
+
+if [ "$(cat ${OPERSTATE_PATH})" = "down" ]; then
+    return 0
+fi
+
+name=$(nmcli -t -f device,name con show --active | grep "$INTERFACE" | cut -d ':' -f 2)
+# https://stackoverflow.com/questions/1473981/how-to-check-if-a-string-has-spaces-in-bash-shell
+case $name in
+    *" "*) name="'${name}'"
+esac
+
+quality=$(cat "/proc/net/wireless" | grep $INTERFACE | cut -d ' ' -f 5 | cut -d '.' -f 1)
+percent=$(printf "%.0f" $(wifi_quality_to_percent ${quality}))
+
+echo "Wifi: ${name} [${percent}%]"
+

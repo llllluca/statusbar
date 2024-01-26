@@ -1,0 +1,2 @@
+event=processor LNXCPU:03 00000081 00000000
+action=/etc/acpi/statusbar-refresh.sh battery

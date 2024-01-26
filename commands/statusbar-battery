@@ -1,0 +1,36 @@
+#!/bin/sh
+
+
+BATTERY="BAT1"
+POWER_SUPPLY_CAPACITY="/sys/class/power_supply/${BATTERY}/capacity"
+POWER_SUPPLY_STATUS="/sys/class/power_supply/${BATTERY}/status"
+
+percent="$(cat "$POWER_SUPPLY_CAPACITY")"
+status="$(cat "$POWER_SUPPLY_STATUS")"
+short_status=""
+output=""
+
+case "$status" in
+    "Charging" | "Full")
+        short_status="+"
+        ;;
+
+    "Discharging" | "Not charging")
+        short_status="-"
+        ;;
+
+    *)
+        short_status="?"
+        ;;
+esac
+
+output="Power: [${percent}%] [${short_status}]"
+if [ "$status" != "Charging" ]; then
+    if [ "$percent" -lt 10 ]; then
+        output="${output}"
+    elif [ "$percent" -lt 20 ]; then
+        output="${output}"
+    fi
+fi
+
+echo "$output"

@@ -1,0 +1,19 @@
+#!/bin/sh 
+
+output="Volume"
+master=$(amixer get Master | tail -1)
+active=$(echo "$master" | awk "{print \$6}")
+volume=$(echo "$master" | awk "{print \$5}")
+    
+# Check if headphone is connected
+HEADPHONE_OFF="  Front Right: Playback 0 [0%] [-65.25dB] [off]"
+if [ "$(amixer -c0 get Headphone | tail -1)" != "$HEADPHONE_OFF" ]; then
+    output="Headphone"
+fi
+
+if [ "$active" = "[off]" ]; then
+    echo "${output}: muted"
+else
+    echo "${output}: ${volume}"
+fi
+
