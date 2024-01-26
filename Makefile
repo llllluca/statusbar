@@ -11,7 +11,8 @@ COMMANDS = \
     statusbar-brightness \
     statusbar-datetime \
     statusbar-volume \
-    statusbar-wifi
+    statusbar-wifi \
+    statusbar-eth
 
 ACPI_EVENTS = \
 	jack-headphone-plug \
@@ -22,7 +23,7 @@ ACPI_SCRIPTS = \
 	statusbar-refresh.sh
 
 NETWORK_MANAGER_SCRIPTS = \
-	statusbar-wifi-refresh.sh
+	statusbar-refresh.sh
 
 all:
 	@echo statusbar, version: ${VERSION}
@@ -30,6 +31,10 @@ all:
 
 install: 
 	mkdir -p ${PREFIX}/bin
+	cp -f statusbar-deamon ${PREFIX}/bin
+	chmod 755 ${PREFIX}/bin/statusbar-deamon
+	cp -f statusbar-scheduler ${PREFIX}/bin
+	chmod 755 ${PREFIX}/bin/statusbar-scheduler
 	for s in ${COMMANDS} ; do \
 		cp -f commands/$$s ${PREFIX}/bin ; \
 		chmod 755 ${PREFIX}/bin/$$s ; \

@@ -16,16 +16,13 @@ FIFO = os.path.join(home, ".statusbar-fifo")
 
 def main():
 
-    nm_event = None
     seconds = None
 
     try: 
-        optlist, args = getopt.getopt(sys.argv[1:], "", [ "secs=", "nm=" ])
+        optlist, args = getopt.getopt(sys.argv[1:], "", [ "secs=" ])
         for opt, val in optlist:
             if opt == "--secs":
                 seconds=float(val)
-            elif opt == "--nm":
-                nm_event=val
     except Exception as e:
         print(f"Error: {e}", file=sys.stderr)
         sys.exit(1)
@@ -41,12 +38,11 @@ def main():
         if oe.errno != errno.EEXIST:
             raise
 
-    if seconds == None and nm_event == None:
+    if seconds == None: 
         with open(FIFO, "w") as fifo:
             fifo.write(f"{requests},")
         sys.exit()
-
-    if seconds != None:
+    else:
         while True:
             with open(FIFO, "w") as fifo:
                 fifo.write(f"{requests},")

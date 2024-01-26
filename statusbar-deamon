@@ -10,6 +10,7 @@ cache = {
     "volume": "",
     "brightness": "",
     "wifi": "",
+    "eth": ""
 }
 
 cmds = {
@@ -18,6 +19,7 @@ cmds = {
     "volume": ["statusbar-volume" ],
     "brightness": ["statusbar-brightness"],
     "wifi": ["statusbar-wifi"],
+    "eth": ["statusbar-eth"],
 }
 
 home = os.getenv("HOME")
@@ -35,6 +37,10 @@ def statusbar_string():
 
     if cache['wifi'] != "":
         statusbar += f"| {cache['wifi']} "
+
+    if cache['eth'] != "":
+        statusbar += f"| {cache['eth']} "
+
 
     return statusbar
 

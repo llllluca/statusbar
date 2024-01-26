@@ -1,0 +1,11 @@
+#!/bin/sh
+
+INTERFACE="enp2s0"
+OPERSTATE_PATH="/sys/class/net/${INTERFACE}/operstate"
+
+if [ "$(cat ${OPERSTATE_PATH})" = "down" ]; then
+    return 0
+fi
+
+echo "Eth: up"
+

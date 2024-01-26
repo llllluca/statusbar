@@ -1,6 +1,6 @@
 #!/bin/sh
 
-for pid in $(pgrep -f "statusbar-deamon.py"); do
+for pid in $(pgrep -f "statusbar-deamon"); do
 	eval $(grep -z "^USER" "/proc/${pid}/environ")
-	su ${USER} -c "/home/${USER}/bin/statusbar-scheduler.py $1"
+	su ${USER} -c "statusbar-scheduler $1"
 done
