@@ -5,6 +5,7 @@ VERSION = 1.0
 PREFIX = /usr/local
 ACPI = /etc/acpi
 NETWORK_MANAGER = /usr/lib/NetworkManager
+SYSTEM_SLEEP = /lib/systemd/system-sleep
 
 COMMANDS = \
     statusbar-battery \
@@ -23,6 +24,9 @@ ACPI_SCRIPTS = \
 	statusbar-refresh.sh
 
 NETWORK_MANAGER_SCRIPTS = \
+	statusbar-refresh.sh
+
+SYSTEM_SLEEP_SCRIPTS = \
 	statusbar-refresh.sh
 
 all:
@@ -44,10 +48,17 @@ install:
 	done
 	for s in ${ACPI_SCRIPTS} ; do \
 		cp -f acpi-events/$$s ${ACPI} ; \
+		chmod 755 ${ACPI}/$$s ; \
 	done
 	for s in ${NETWORK_MANAGER_SCRIPTS} ; do \
 		cp -f network-manager-events/$$s ${NETWORK_MANAGER}/dispatcher.d ; \
+		chmod 755 ${NETWORK_MANAGER}/dispatcher.d/$$s ; \
 	done
+	for s in ${SYSTEM_SLEEP_SCRIPTS} ; do \
+		cp -f system-sleep-events/$$s ${SYSTEM_SLEEP} ; \
+		chmod 755 ${SYSTEM_SLEEP}/$$s ; \
+	done
+
 
 
 uninstall:
@@ -63,5 +74,9 @@ uninstall:
 	for s in ${NETWORK_MANAGER_SCRIPTS} ; do \
 		rm -f ${NETWORK_MANAGER}/dispatcher.d/$$s ; \
 	done
+	for s in ${SYSTEM_SLEEP_SCRIPTS} ; do \
+		rm -f ${SYSTEM_SLEEP}/$$s ; \
+	done
+
 
 .PHONY: all install uninstall

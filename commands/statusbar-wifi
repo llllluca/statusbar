@@ -23,7 +23,7 @@ case $name in
     *" "*) name="'${name}'"
 esac
 
-quality=$(cat "/proc/net/wireless" | grep $INTERFACE | cut -d ' ' -f 5 | cut -d '.' -f 1)
+quality=$(cat "/proc/net/wireless" | grep $INTERFACE | awk "{ print \$3 }")
 percent=$(printf "%.0f" $(wifi_quality_to_percent ${quality}))
 
 echo "Wifi: ${name} [${percent}%]"
