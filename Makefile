@@ -31,7 +31,8 @@ SYSTEM_SLEEP_SCRIPTS = \
 
 all:
 	@echo statusbar, version: ${VERSION}
-	@echo Customize the path variables in the Makefile and use \'$$ make install\'.
+	@echo Customize the path variables in the Makefile and run \'$$ make install\'. To uninstall run \'$$ make uninstall\'.
+	@echo Install and uninstall may require superuser privileges depending on the path variables you set.
 
 install: 
 	mkdir -p ${PREFIX}/bin
