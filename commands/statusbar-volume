@@ -6,8 +6,7 @@ active=$(echo "$master" | awk "{print \$6}")
 volume=$(echo "$master" | awk "{print \$5}")
     
 # Check if headphone is connected
-HEADPHONE_OFF="  Front Right: Playback 0 [0%] [-65.25dB] [off]"
-if [ "$(amixer -c0 get Headphone | tail -1)" != "$HEADPHONE_OFF" ]; then
+if [ "$(amixer -c0 get Headphone | tail -1 | awk "{print \$6}")" != "[-65.25dB]" ]; then
     output="Headphone"
 fi
 
